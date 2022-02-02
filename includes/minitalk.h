@@ -6,7 +6,7 @@
 /*   By: acroisie <acroisie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 09:55:00 by acroisie          #+#    #+#             */
-/*   Updated: 2022/02/01 15:47:50 by acroisie         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 10:58:56 by acroisie         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@
 # include <signal.h>
 
 void	ft_display_pid(void);
+void	ft_send_message(int pid, char *str);
+void	ft_receive_message(int signal);
 
 #endif

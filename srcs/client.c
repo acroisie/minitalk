@@ -1,44 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acroisie <acroisie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/01 08:56:30 by acroisie          #+#    #+#             */
-/*   Updated: 2022/02/02 13:36:25 by acroisie         ###   ########lyon.fr   */
+/*   Created: 2022/02/02 08:59:27 by acroisie          #+#    #+#             */
+/*   Updated: 2022/02/02 13:35:45 by acroisie         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-void	ft_receive_message(int signal)
+void	ft_send_message(int pid, char *str)
 {
-	static int	current_bit;
-	static char	character;
+	int	i;
+	int	current_bit;
 
-	if (signal == SIGUSR2)
-		character = character | (1 << current_bit);
-	current_bit++;
-	if (current_bit == 8)
+	i = 0;
+	current_bit = 0;
+	while (str[i])
 	{
-		ft_putchar_fd(character, 1);
+		while (current_bit < 8)
+		{
+			if (str[i] & (1 << current_bit))
+				kill(pid, SIGUSR2);
+			else
+				kill(pid, SIGUSR1);
+			current_bit++;
+			usleep(100);
+		}
 		current_bit = 0;
-		character = 0;
+		i++;
 	}
 }
 
-void	ft_display_pid(void)
+int	main(int argc, char *argv[])
 {
-	ft_putnbr_fd(getpid(), 1);
-	write(1, "\n", 1);
-}
+	int		pid;
 
-int	main(void)
-{
-	ft_display_pid();
-	signal(SIGUSR1, ft_receive_message);
-	signal(SIGUSR2, ft_receive_message);
-	while (1)
-		pause();
+	if (argc != 3)
+	{
+		ft_putendl_fd("Wrong arguments", 2);
+		return (1);
+	}
+	pid = ft_atoi(argv[1]);
+	ft_send_message(pid, argv[2]);
+	return (0);
 }

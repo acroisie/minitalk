@@ -6,7 +6,7 @@
 /*   By: acroisie <acroisie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 08:56:30 by acroisie          #+#    #+#             */
-/*   Updated: 2022/02/02 13:36:25 by acroisie         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 14:18:07 by acroisie         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_receive_message(int signal)
 {
-	static int	current_bit;
-	static char	character;
+	static int				current_bit;
+	static unsigned char	character;
 
 	if (signal == SIGUSR2)
 		character = character | (1 << current_bit);
